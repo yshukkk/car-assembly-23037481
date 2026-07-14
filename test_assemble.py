@@ -20,52 +20,52 @@ def reset_state():
 
 @pytest.mark.parametrize("ans", [1, 2, 3])
 def test_valid_range_step0_ok(ans):
-    assert assemble.is_valid_range(assemble.CarType_Q, ans) is True
+    assert assemble.is_valid_range(assemble.CAR_TYPE_STEP, ans) is True
 
 
 @pytest.mark.parametrize("ans", [0, 4, -1])
 def test_valid_range_step0_out_of_range(ans):
-    assert assemble.is_valid_range(assemble.CarType_Q, ans) is False
+    assert assemble.is_valid_range(assemble.CAR_TYPE_STEP, ans) is False
 
 
 @pytest.mark.parametrize("ans", [0, 1, 2, 3, 4])
 def test_valid_range_step1_ok(ans):
-    assert assemble.is_valid_range(assemble.Engine_Q, ans) is True
+    assert assemble.is_valid_range(assemble.ENGINE_STEP, ans) is True
 
 
 @pytest.mark.parametrize("ans", [-1, 5])
 def test_valid_range_step1_out_of_range(ans):
-    assert assemble.is_valid_range(assemble.Engine_Q, ans) is False
+    assert assemble.is_valid_range(assemble.ENGINE_STEP, ans) is False
 
 
 @pytest.mark.parametrize("ans", [0, 1, 2, 3])
 def test_valid_range_step2_ok(ans):
-    assert assemble.is_valid_range(assemble.brakeSystem_Q, ans) is True
+    assert assemble.is_valid_range(assemble.BRAKE_SYSTEM_STEP, ans) is True
 
 
 @pytest.mark.parametrize("ans", [-1, 4])
 def test_valid_range_step2_out_of_range(ans):
-    assert assemble.is_valid_range(assemble.brakeSystem_Q, ans) is False
+    assert assemble.is_valid_range(assemble.BRAKE_SYSTEM_STEP, ans) is False
 
 
 @pytest.mark.parametrize("ans", [0, 1, 2])
 def test_valid_range_step3_ok(ans):
-    assert assemble.is_valid_range(assemble.SteeringSystem_Q, ans) is True
+    assert assemble.is_valid_range(assemble.STEERING_SYSTEM_STEP, ans) is True
 
 
 @pytest.mark.parametrize("ans", [-1, 3])
 def test_valid_range_step3_out_of_range(ans):
-    assert assemble.is_valid_range(assemble.SteeringSystem_Q, ans) is False
+    assert assemble.is_valid_range(assemble.STEERING_SYSTEM_STEP, ans) is False
 
 
 @pytest.mark.parametrize("ans", [0, 1, 2])
 def test_valid_range_step4_ok(ans):
-    assert assemble.is_valid_range(assemble.Run_Test, ans) is True
+    assert assemble.is_valid_range(assemble.RUN_TEST_STEP, ans) is True
 
 
 @pytest.mark.parametrize("ans", [-1, 3])
 def test_valid_range_step4_out_of_range(ans):
-    assert assemble.is_valid_range(assemble.Run_Test, ans) is False
+    assert assemble.is_valid_range(assemble.RUN_TEST_STEP, ans) is False
 
 
 # ---------------------------------------------------------------------------

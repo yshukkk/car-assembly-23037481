@@ -3,11 +3,11 @@ import sys
 
 CLEAR_SCREEN = "\033[H\033[2J"
 
-CarType_Q = 0
-Engine_Q = 1
-brakeSystem_Q = 2
-SteeringSystem_Q = 3
-Run_Test = 4
+CAR_TYPE_STEP = 0
+ENGINE_STEP = 1
+BRAKE_SYSTEM_STEP = 2
+STEERING_SYSTEM_STEP = 3
+RUN_TEST_STEP = 4
 
 SEDAN = 1
 SUV = 2
@@ -65,24 +65,24 @@ CAR_ASCII_ART = [
 ]
 
 MENU_SCREENS = {
-    CarType_Q: {
+    CAR_TYPE_STEP: {
         "art": CAR_ASCII_ART,
         "title": "어떤 차량 타입을 선택할까요?",
         "options": ["1. Sedan", "2. SUV", "3. Truck"],
     },
-    Engine_Q: {
+    ENGINE_STEP: {
         "title": "어떤 엔진을 탑재할까요?",
         "options": ["0. 뒤로가기", "1. GM", "2. TOYOTA", "3. WIA", "4. 고장난 엔진"],
     },
-    brakeSystem_Q: {
+    BRAKE_SYSTEM_STEP: {
         "title": "어떤 제동장치를 선택할까요?",
         "options": ["0. 뒤로가기", "1. MANDO", "2. CONTINENTAL", "3. BOSCH"],
     },
-    SteeringSystem_Q: {
+    STEERING_SYSTEM_STEP: {
         "title": "어떤 조향장치를 선택할까요?",
         "options": ["0. 뒤로가기", "1. BOSCH", "2. MOBIS"],
     },
-    Run_Test: {
+    RUN_TEST_STEP: {
         "title": "멋진 차량이 완성되었습니다.",
         "options": ["0. 처음 화면으로 돌아가기", "1. RUN", "2. Test"],
     },
@@ -99,23 +99,23 @@ def show_menu(step):
     print("===============================")
 
 def is_valid_range(step, ans):
-    if step == CarType_Q:
+    if step == CAR_TYPE_STEP:
         if ans < SEDAN or ans > TRUCK:
             print("ERROR :: 차량 타입은 1 ~ 3 범위만 선택 가능")
             return False
-    if step == Engine_Q:
+    if step == ENGINE_STEP:
         if ans < 0 or ans > BROKEN_ENGINE:
             print("ERROR :: 엔진은 1 ~ 4 범위만 선택 가능")
             return False
-    if step == brakeSystem_Q:
+    if step == BRAKE_SYSTEM_STEP:
         if ans < 0 or ans > BOSCH_B:
             print("ERROR :: 제동장치는 1 ~ 3 범위만 선택 가능")
             return False
-    if step == SteeringSystem_Q:
+    if step == STEERING_SYSTEM_STEP:
         if ans < 0 or ans > MOBIS:
             print("ERROR :: 조향장치는 1 ~ 2 범위만 선택 가능")
             return False
-    if step == Run_Test:
+    if step == RUN_TEST_STEP:
         if ans < 0 or ans > TEST:
             print("ERROR :: Run 또는 Test 중 하나를 선택 필요")
             return False
@@ -198,7 +198,7 @@ def test_produced_car():
         print("PASS")
 
 def main():
-    step = CarType_Q
+    step = CAR_TYPE_STEP
     while True:
         show_menu(step)
         buf = input("INPUT > ").strip()
@@ -219,29 +219,29 @@ def main():
             continue
 
         if ans == 0:
-            if step == Run_Test:
-                step = CarType_Q
-            elif step > CarType_Q:
+            if step == RUN_TEST_STEP:
+                step = CAR_TYPE_STEP
+            elif step > CAR_TYPE_STEP:
                 step = step - 1
             continue
 
-        if step == CarType_Q:
+        if step == CAR_TYPE_STEP:
             select_car_type(ans)
             delay(800)
-            step = Engine_Q
-        elif step == Engine_Q:
+            step = ENGINE_STEP
+        elif step == ENGINE_STEP:
             select_engine(ans)
             delay(800)
-            step = brakeSystem_Q
-        elif step == brakeSystem_Q:
+            step = BRAKE_SYSTEM_STEP
+        elif step == BRAKE_SYSTEM_STEP:
             select_brake(ans)
             delay(800)
-            step = SteeringSystem_Q
-        elif step == SteeringSystem_Q:
+            step = STEERING_SYSTEM_STEP
+        elif step == STEERING_SYSTEM_STEP:
             select_steering(ans)
             delay(800)
-            step = Run_Test
-        elif step == Run_Test:
+            step = RUN_TEST_STEP
+        elif step == RUN_TEST_STEP:
             if ans == RUN:
                 run_produced_car()
                 delay(2000)

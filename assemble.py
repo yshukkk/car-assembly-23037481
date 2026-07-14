@@ -29,6 +29,14 @@ BROKEN_ENGINE = 4
 RUN = 1
 TEST = 2
 
+CAR_TYPE_NAMES = {SEDAN: "Sedan", SUV: "SUV", TRUCK: "Truck"}
+ENGINE_SELECT_NAMES = {GM: "GM", TOYOTA: "TOYOTA", WIA: "WIA", BROKEN_ENGINE: "고장난"}
+ENGINE_RUN_NAMES = {GM: "GM", TOYOTA: "TOYOTA", WIA: "WIA"}
+BRAKE_SELECT_NAMES = {MANDO: "MANDO", CONTINENTAL: "CONTINENTAL", BOSCH_B: "BOSCH"}
+BRAKE_RUN_NAMES = {MANDO: "Mando", CONTINENTAL: "Continental", BOSCH_B: "Bosch"}
+STEERING_SELECT_NAMES = {BOSCH_S: "BOSCH", MOBIS: "MOBIS"}
+STEERING_RUN_NAMES = {BOSCH_S: "Bosch", MOBIS: "Mobis"}
+
 q0 = 0
 q1 = 0
 q2 = 0
@@ -107,42 +115,30 @@ def is_valid_range(step, ans):
 def select_car_type(a):
     global q0
     q0 = a
-    if a == SEDAN:
-        print("차량 타입으로 Sedan을 선택하셨습니다.")
-    elif a == SUV:
-        print("차량 타입으로 SUV을 선택하셨습니다.")
-    elif a == TRUCK:
-        print("차량 타입으로 Truck을 선택하셨습니다.")
+    name = CAR_TYPE_NAMES.get(a)
+    if name:
+        print(f"차량 타입으로 {name}을 선택하셨습니다.")
 
 def select_engine(a):
     global q1
     q1 = a
-    if a == GM:
-        print("GM 엔진을 선택하셨습니다.")
-    elif a == TOYOTA:
-        print("TOYOTA 엔진을 선택하셨습니다.")
-    elif a == WIA:
-        print("WIA 엔진을 선택하셨습니다.")
-    elif a == BROKEN_ENGINE:
-        print("고장난 엔진을 선택하셨습니다.")
+    name = ENGINE_SELECT_NAMES.get(a)
+    if name:
+        print(f"{name} 엔진을 선택하셨습니다.")
 
 def select_brake(a):
     global q2
     q2 = a
-    if a == MANDO:
-        print("MANDO 제동장치를 선택하셨습니다.")
-    elif a == CONTINENTAL:
-        print("CONTINENTAL 제동장치를 선택하셨습니다.")
-    elif a == BOSCH_B:
-        print("BOSCH 제동장치를 선택하셨습니다.")
+    name = BRAKE_SELECT_NAMES.get(a)
+    if name:
+        print(f"{name} 제동장치를 선택하셨습니다.")
 
 def select_steering(a):
     global q3
     q3 = a
-    if a == BOSCH_S:
-        print("BOSCH 조향장치를 선택하셨습니다.")
-    elif a == MOBIS:
-        print("MOBIS 조향장치를 선택하셨습니다.")
+    name = STEERING_SELECT_NAMES.get(a)
+    if name:
+        print(f"{name} 조향장치를 선택하셨습니다.")
 
 COMPATIBILITY_RULES = [
     (lambda q0, q1, q2, q3: q0 == SEDAN and q2 == CONTINENTAL,
@@ -172,31 +168,17 @@ def run_produced_car():
         print("자동차가 움직이지 않습니다.")
         return
 
-    if q0 == SEDAN:
-        print("Car Type : Sedan")
-    elif q0 == SUV:
-        print("Car Type : SUV")
-    elif q0 == TRUCK:
-        print("Car Type : Truck")
+    if q0 in CAR_TYPE_NAMES:
+        print(f"Car Type : {CAR_TYPE_NAMES[q0]}")
 
-    if q1 == GM:
-        print("Engine   : GM")
-    elif q1 == TOYOTA:
-        print("Engine   : TOYOTA")
-    elif q1 == WIA:
-        print("Engine   : WIA")
+    if q1 in ENGINE_RUN_NAMES:
+        print(f"Engine   : {ENGINE_RUN_NAMES[q1]}")
 
-    if q2 == MANDO:
-        print("Brake    : Mando")
-    elif q2 == CONTINENTAL:
-        print("Brake    : Continental")
-    elif q2 == BOSCH_B:
-        print("Brake    : Bosch")
+    if q2 in BRAKE_RUN_NAMES:
+        print(f"Brake    : {BRAKE_RUN_NAMES[q2]}")
 
-    if q3 == BOSCH_S:
-        print("Steering : Bosch")
-    elif q3 == MOBIS:
-        print("Steering : Mobis")
+    if q3 in STEERING_RUN_NAMES:
+        print(f"Steering : {STEERING_RUN_NAMES[q3]}")
 
     print("자동차가 동작됩니다.")
 

@@ -139,18 +139,24 @@ def select_steering(a):
     elif a == 2:
         print("MOBIS 조향장치를 선택하셨습니다.")
 
+COMPATIBILITY_RULES = [
+    (lambda q0, q1, q2, q3: q0 == SEDAN and q2 == CONTINENTAL,
+     "Sedan에는 Continental제동장치 사용 불가"),
+    (lambda q0, q1, q2, q3: q0 == SUV and q1 == TOYOTA,
+     "SUV에는 TOYOTA엔진 사용 불가"),
+    (lambda q0, q1, q2, q3: q0 == TRUCK and q1 == WIA,
+     "Truck에는 WIA엔진 사용 불가"),
+    (lambda q0, q1, q2, q3: q0 == TRUCK and q2 == MANDO,
+     "Truck에는 Mando제동장치 사용 불가"),
+    (lambda q0, q1, q2, q3: q2 == BOSCH_B and q3 != BOSCH_S,
+     "Bosch제동장치에는 Bosch조향장치 이외 사용 불가"),
+]
+
+def check_compatibility(q0, q1, q2, q3):
+    return [message for predicate, message in COMPATIBILITY_RULES if predicate(q0, q1, q2, q3)]
+
 def is_valid_check():
-    if q0 == SEDAN and q2 == CONTINENTAL:
-        return False
-    if q0 == SUV and q1 == TOYOTA:
-        return False
-    if q0 == TRUCK and q1 == WIA:
-        return False
-    if q0 == TRUCK and q2 == MANDO:
-        return False
-    if q2 == BOSCH_B and q3 != BOSCH_S:
-        return False
-    return True
+    return len(check_compatibility(q0, q1, q2, q3)) == 0
 
 def run_produced_car():
     if not is_valid_check():
@@ -190,16 +196,9 @@ def run_produced_car():
     print("자동차가 동작됩니다.")
 
 def test_produced_car():
-    if q0 == SEDAN and q2 == CONTINENTAL:
-        print("FAIL\nSedan에는 Continental제동장치 사용 불가")
-    elif q0 == SUV and q1 == TOYOTA:
-        print("FAIL\nSUV에는 TOYOTA엔진 사용 불가")
-    elif q0 == TRUCK and q1 == WIA:
-        print("FAIL\nTruck에는 WIA엔진 사용 불가")
-    elif q0 == TRUCK and q2 == MANDO:
-        print("FAIL\nTruck에는 Mando제동장치 사용 불가")
-    elif q2 == BOSCH_B and q3 != BOSCH_S:
-        print("FAIL\nBosch제동장치에는 Bosch조향장치 이외 사용 불가")
+    violations = check_compatibility(q0, q1, q2, q3)
+    if violations:
+        print("FAIL\n" + violations[0])
     else:
         print("PASS")
 

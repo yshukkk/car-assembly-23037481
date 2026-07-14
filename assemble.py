@@ -55,42 +55,47 @@ def clear():
     sys.stdout.write(CLEAR_SCREEN)
     sys.stdout.flush()
 
+CAR_ASCII_ART = [
+    "        ______________",
+    "       /|            |",
+    "  ____/_|_____________|____",
+    " |                      O  |",
+    " '-(@)----------------(@)--'",
+    "===============================",
+]
+
+MENU_SCREENS = {
+    CarType_Q: {
+        "art": CAR_ASCII_ART,
+        "title": "어떤 차량 타입을 선택할까요?",
+        "options": ["1. Sedan", "2. SUV", "3. Truck"],
+    },
+    Engine_Q: {
+        "title": "어떤 엔진을 탑재할까요?",
+        "options": ["0. 뒤로가기", "1. GM", "2. TOYOTA", "3. WIA", "4. 고장난 엔진"],
+    },
+    brakeSystem_Q: {
+        "title": "어떤 제동장치를 선택할까요?",
+        "options": ["0. 뒤로가기", "1. MANDO", "2. CONTINENTAL", "3. BOSCH"],
+    },
+    SteeringSystem_Q: {
+        "title": "어떤 조향장치를 선택할까요?",
+        "options": ["0. 뒤로가기", "1. BOSCH", "2. MOBIS"],
+    },
+    Run_Test: {
+        "title": "멋진 차량이 완성되었습니다.",
+        "options": ["0. 처음 화면으로 돌아가기", "1. RUN", "2. Test"],
+    },
+}
+
 def show_menu(step):
     clear()
-    if step == CarType_Q:
-        print("        ______________")
-        print("       /|            |")
-        print("  ____/_|_____________|____")
-        print(" |                      O  |")
-        print(" '-(@)----------------(@)--'")
-        print("===============================")
-        print("어떤 차량 타입을 선택할까요?")
-        print("1. Sedan")
-        print("2. SUV")
-        print("3. Truck")
-    elif step == Engine_Q:
-        print("어떤 엔진을 탑재할까요?")
-        print("0. 뒤로가기")
-        print("1. GM")
-        print("2. TOYOTA")
-        print("3. WIA")
-        print("4. 고장난 엔진")
-    elif step == brakeSystem_Q:
-        print("어떤 제동장치를 선택할까요?")
-        print("0. 뒤로가기")
-        print("1. MANDO")
-        print("2. CONTINENTAL")
-        print("3. BOSCH")
-    elif step == SteeringSystem_Q:
-        print("어떤 조향장치를 선택할까요?")
-        print("0. 뒤로가기")
-        print("1. BOSCH")
-        print("2. MOBIS")
-    elif step == Run_Test:
-        print("멋진 차량이 완성되었습니다.")
-        print("0. 처음 화면으로 돌아가기")
-        print("1. RUN")
-        print("2. Test")
+    screen = MENU_SCREENS[step]
+    for line in screen.get("art", []):
+        print(line)
+    print(screen["title"])
+    for option in screen["options"]:
+        print(option)
     print("===============================")
 
 def is_valid_range(step, ans):

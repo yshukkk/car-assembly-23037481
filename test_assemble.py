@@ -6,11 +6,10 @@ import assemble
 @pytest.fixture(autouse=True)
 def reset_state():
     """각 테스트 전에 선택 상태를 초기화한다."""
-    assemble.state.q0 = 0
-    assemble.state.q1 = 0
-    assemble.state.q2 = 0
-    assemble.state.q3 = 0
-    assemble.state.q4 = 0
+    assemble.state.car_type = 0
+    assemble.state.engine = 0
+    assemble.state.brake = 0
+    assemble.state.steering = 0
     yield
 
 
@@ -73,27 +72,27 @@ def test_valid_range_step4_out_of_range(ans):
 # ---------------------------------------------------------------------------
 
 @pytest.mark.parametrize("ans", [1, 2, 3])
-def test_select_car_type_sets_q0(ans):
+def test_select_car_type_sets_car_type(ans):
     assemble.select_car_type(ans)
-    assert assemble.state.q0 == ans
+    assert assemble.state.car_type == ans
 
 
 @pytest.mark.parametrize("ans", [1, 2, 3, 4])
-def test_select_engine_sets_q1(ans):
+def test_select_engine_sets_engine(ans):
     assemble.select_engine(ans)
-    assert assemble.state.q1 == ans
+    assert assemble.state.engine == ans
 
 
 @pytest.mark.parametrize("ans", [1, 2, 3])
-def test_select_brake_sets_q2(ans):
+def test_select_brake_sets_brake(ans):
     assemble.select_brake(ans)
-    assert assemble.state.q2 == ans
+    assert assemble.state.brake == ans
 
 
 @pytest.mark.parametrize("ans", [1, 2])
-def test_select_steering_sets_q3(ans):
+def test_select_steering_sets_steering(ans):
     assemble.select_steering(ans)
-    assert assemble.state.q3 == ans
+    assert assemble.state.steering == ans
 
 
 # ---------------------------------------------------------------------------
@@ -106,10 +105,10 @@ def test_select_steering_sets_q3(ans):
 # ---------------------------------------------------------------------------
 
 def _set_state(car, engine, brake, steering):
-    assemble.state.q0 = car
-    assemble.state.q1 = engine
-    assemble.state.q2 = brake
-    assemble.state.q3 = steering
+    assemble.state.car_type = car
+    assemble.state.engine = engine
+    assemble.state.brake = brake
+    assemble.state.steering = steering
 
 
 def test_valid_check_all_valid_combo_passes():
@@ -166,6 +165,16 @@ def test_test_produced_car_reports_fail_reason(capsys, car, engine, brake, steer
     assert expected_substr in out
 
 
+def test_test_produced_car_reports_all_violated_rules(capsys):
+    # Truck + WIA 엔진 + Mando 제동장치: 룰 4, 5를 동시에 위반
+    _set_state(assemble.TRUCK, assemble.WIA, assemble.MANDO, assemble.MOBIS)
+    assemble.test_produced_car()
+    out = capsys.readouterr().out
+    assert "FAIL" in out
+    assert "Truck에는 WIA엔진 사용 불가" in out
+    assert "Truck에는 Mando제동장치 사용 불가" in out
+
+
 def test_test_produced_car_reports_pass(capsys):
     _set_state(assemble.SEDAN, assemble.GM, assemble.MANDO, assemble.MOBIS)
     assemble.test_produced_car()
@@ -200,5 +209,5 @@ def test_run_produced_car_valid_combo_runs(capsys):
     assert "자동차가 동작됩니다" in out
     assert "Car Type : Sedan" in out
     assert "Engine   : GM" in out
-    assert "Brake    : Mando" in out
-    assert "Steering : Mobis" in out
+    assert "Brake    : MANDO" in out
+    assert "Steering : MOBIS" in out

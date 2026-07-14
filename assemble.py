@@ -164,11 +164,14 @@ def check_compatibility(q0, q1, q2, q3):
 def is_valid_check():
     return len(check_compatibility(state.q0, state.q1, state.q2, state.q3)) == 0
 
+def is_engine_broken():
+    return state.q1 == BROKEN_ENGINE
+
 def run_produced_car():
     if not is_valid_check():
         print("자동차가 동작되지 않습니다")
         return
-    if state.q1 == BROKEN_ENGINE:
+    if is_engine_broken():
         print("엔진이 고장나있습니다.")
         print("자동차가 움직이지 않습니다.")
         return

@@ -5,12 +5,12 @@ import assemble
 
 @pytest.fixture(autouse=True)
 def reset_state():
-    """각 테스트 전에 전역 선택 상태를 초기화한다."""
-    assemble.q0 = 0
-    assemble.q1 = 0
-    assemble.q2 = 0
-    assemble.q3 = 0
-    assemble.q4 = 0
+    """각 테스트 전에 선택 상태를 초기화한다."""
+    assemble.state.q0 = 0
+    assemble.state.q1 = 0
+    assemble.state.q2 = 0
+    assemble.state.q3 = 0
+    assemble.state.q4 = 0
     yield
 
 
@@ -69,31 +69,31 @@ def test_valid_range_step4_out_of_range(ans):
 
 
 # ---------------------------------------------------------------------------
-# select_* 함수들이 전역 상태를 올바르게 설정하는지
+# select_* 함수들이 상태(state)를 올바르게 설정하는지
 # ---------------------------------------------------------------------------
 
 @pytest.mark.parametrize("ans", [1, 2, 3])
 def test_select_car_type_sets_q0(ans):
     assemble.select_car_type(ans)
-    assert assemble.q0 == ans
+    assert assemble.state.q0 == ans
 
 
 @pytest.mark.parametrize("ans", [1, 2, 3, 4])
 def test_select_engine_sets_q1(ans):
     assemble.select_engine(ans)
-    assert assemble.q1 == ans
+    assert assemble.state.q1 == ans
 
 
 @pytest.mark.parametrize("ans", [1, 2, 3])
 def test_select_brake_sets_q2(ans):
     assemble.select_brake(ans)
-    assert assemble.q2 == ans
+    assert assemble.state.q2 == ans
 
 
 @pytest.mark.parametrize("ans", [1, 2])
 def test_select_steering_sets_q3(ans):
     assemble.select_steering(ans)
-    assert assemble.q3 == ans
+    assert assemble.state.q3 == ans
 
 
 # ---------------------------------------------------------------------------
@@ -106,10 +106,10 @@ def test_select_steering_sets_q3(ans):
 # ---------------------------------------------------------------------------
 
 def _set_state(car, engine, brake, steering):
-    assemble.q0 = car
-    assemble.q1 = engine
-    assemble.q2 = brake
-    assemble.q3 = steering
+    assemble.state.q0 = car
+    assemble.state.q1 = engine
+    assemble.state.q2 = brake
+    assemble.state.q3 = steering
 
 
 def test_valid_check_all_valid_combo_passes():

@@ -37,11 +37,15 @@ BRAKE_RUN_NAMES = {MANDO: "Mando", CONTINENTAL: "Continental", BOSCH_B: "Bosch"}
 STEERING_SELECT_NAMES = {BOSCH_S: "BOSCH", MOBIS: "MOBIS"}
 STEERING_RUN_NAMES = {BOSCH_S: "Bosch", MOBIS: "Mobis"}
 
-q0 = 0
-q1 = 0
-q2 = 0
-q3 = 0
-q4 = 0
+class CarBuildState:
+    def __init__(self):
+        self.q0 = 0
+        self.q1 = 0
+        self.q2 = 0
+        self.q3 = 0
+        self.q4 = 0
+
+state = CarBuildState()
 
 def delay(ms):
     t = ms / 1000.0
@@ -113,29 +117,25 @@ def is_valid_range(step, ans):
     return True
 
 def select_car_type(a):
-    global q0
-    q0 = a
+    state.q0 = a
     name = CAR_TYPE_NAMES.get(a)
     if name:
         print(f"차량 타입으로 {name}을 선택하셨습니다.")
 
 def select_engine(a):
-    global q1
-    q1 = a
+    state.q1 = a
     name = ENGINE_SELECT_NAMES.get(a)
     if name:
         print(f"{name} 엔진을 선택하셨습니다.")
 
 def select_brake(a):
-    global q2
-    q2 = a
+    state.q2 = a
     name = BRAKE_SELECT_NAMES.get(a)
     if name:
         print(f"{name} 제동장치를 선택하셨습니다.")
 
 def select_steering(a):
-    global q3
-    q3 = a
+    state.q3 = a
     name = STEERING_SELECT_NAMES.get(a)
     if name:
         print(f"{name} 조향장치를 선택하셨습니다.")
@@ -157,33 +157,33 @@ def check_compatibility(q0, q1, q2, q3):
     return [message for predicate, message in COMPATIBILITY_RULES if predicate(q0, q1, q2, q3)]
 
 def is_valid_check():
-    return len(check_compatibility(q0, q1, q2, q3)) == 0
+    return len(check_compatibility(state.q0, state.q1, state.q2, state.q3)) == 0
 
 def run_produced_car():
     if not is_valid_check():
         print("자동차가 동작되지 않습니다")
         return
-    if q1 == BROKEN_ENGINE:
+    if state.q1 == BROKEN_ENGINE:
         print("엔진이 고장나있습니다.")
         print("자동차가 움직이지 않습니다.")
         return
 
-    if q0 in CAR_TYPE_NAMES:
-        print(f"Car Type : {CAR_TYPE_NAMES[q0]}")
+    if state.q0 in CAR_TYPE_NAMES:
+        print(f"Car Type : {CAR_TYPE_NAMES[state.q0]}")
 
-    if q1 in ENGINE_RUN_NAMES:
-        print(f"Engine   : {ENGINE_RUN_NAMES[q1]}")
+    if state.q1 in ENGINE_RUN_NAMES:
+        print(f"Engine   : {ENGINE_RUN_NAMES[state.q1]}")
 
-    if q2 in BRAKE_RUN_NAMES:
-        print(f"Brake    : {BRAKE_RUN_NAMES[q2]}")
+    if state.q2 in BRAKE_RUN_NAMES:
+        print(f"Brake    : {BRAKE_RUN_NAMES[state.q2]}")
 
-    if q3 in STEERING_RUN_NAMES:
-        print(f"Steering : {STEERING_RUN_NAMES[q3]}")
+    if state.q3 in STEERING_RUN_NAMES:
+        print(f"Steering : {STEERING_RUN_NAMES[state.q3]}")
 
     print("자동차가 동작됩니다.")
 
 def test_produced_car():
-    violations = check_compatibility(q0, q1, q2, q3)
+    violations = check_compatibility(state.q0, state.q1, state.q2, state.q3)
     if violations:
         print("FAIL\n" + violations[0])
     else:
